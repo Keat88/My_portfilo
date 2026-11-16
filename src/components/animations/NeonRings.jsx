@@ -1,25 +1,30 @@
 export default function NeonRings() {
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.16)_0%,rgba(168,85,247,0.1)_45%,transparent_70%)] blur-2xl" />
+      <div className="absolute inset-[-4%] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--primary)_18%,transparent)_0%,color-mix(in_srgb,var(--violet)_12%,transparent)_45%,transparent_72%)] blur-3xl" />
 
-      <div className="absolute inset-[2%] rounded-full border border-[var(--ring-border)]" />
+      <div className="absolute inset-[1%] rounded-full border border-[var(--ring-border)] shadow-[inset_0_0_30px_color-mix(in_srgb,var(--primary)_8%,transparent)]" />
 
-      <div className="animate-spin-slower absolute inset-[2%] rounded-full border border-dashed border-[var(--ring-border-dash)]">
-        <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_14px_5px_rgba(56,189,248,0.55)]" />
+      <div className="animate-spin-slower absolute inset-[1%] rounded-full border border-dashed border-[var(--ring-border-dash)]">
+        <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_18px_6px_color-mix(in_srgb,var(--primary)_60%,transparent)]" />
+        <span className="absolute bottom-[12%] right-[8%] h-1.5 w-1.5 rounded-full bg-cyan/90 shadow-[0_0_12px_4px_color-mix(in_srgb,var(--cyan)_55%,transparent)]" />
       </div>
 
-      <div className="animate-spin-slow absolute inset-[10%]">
+      <div className="animate-spin-slow absolute inset-[9%]">
         <div className="orbit-arc absolute inset-0" />
-        <span className="absolute bottom-[6%] left-[14%] h-2 w-2 rounded-full bg-violet shadow-[0_0_16px_6px_rgba(168,85,247,0.5)]" />
+        <span className="absolute bottom-[6%] left-[14%] h-2 w-2 rounded-full bg-violet shadow-[0_0_18px_7px_color-mix(in_srgb,var(--violet)_55%,transparent)]" />
       </div>
 
-      <div className="animate-spin-reverse absolute inset-[17%]">
+      <div className="animate-spin-reverse absolute inset-[16%]">
         <div className="orbit-arc-alt absolute inset-0" />
-        <span className="absolute right-[8%] top-[20%] h-1.5 w-1.5 rounded-full bg-cyan shadow-[0_0_14px_5px_rgba(34,211,238,0.55)]" />
+        <span className="absolute right-[7%] top-[18%] h-1.5 w-1.5 rounded-full bg-cyan shadow-[0_0_16px_6px_color-mix(in_srgb,var(--cyan)_60%,transparent)]" />
       </div>
 
-      <div className="animate-pulse-glow absolute inset-[25%] rounded-full border border-primary/15 shadow-[0_0_60px_rgba(56,189,248,0.18),inset_0_0_50px_rgba(168,85,247,0.12)]" />
+      <div className="animate-spin-slow absolute inset-[23%] rounded-full border border-primary/10 [animation-duration:38s] [animation-direction:reverse]">
+        <span className="absolute left-[10%] top-[50%] h-1 w-1 rounded-full bg-primary/80 shadow-[0_0_10px_3px_color-mix(in_srgb,var(--primary)_50%,transparent)]" />
+      </div>
+
+      <div className="animate-pulse-glow absolute inset-[28%] rounded-full border border-primary/15 shadow-[0_0_70px_color-mix(in_srgb,var(--primary)_18%,transparent),inset_0_0_55px_color-mix(in_srgb,var(--violet)_14%,transparent)]" />
     </div>
   )
 }

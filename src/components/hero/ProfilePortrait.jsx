@@ -35,7 +35,13 @@ export default function ProfilePortrait({ parallaxX, parallaxY }) {
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
           className="relative aspect-square"
         >
-          <div className="absolute -inset-3 rounded-full bg-[conic-gradient(from_140deg,rgba(56,189,248,0.45),rgba(34,211,238,0.1),rgba(168,85,247,0.45),rgba(56,189,248,0.1))] opacity-60 blur-2xl" />
+          <motion.div
+            aria-hidden="true"
+            className="absolute -inset-4 rounded-full bg-[conic-gradient(from_140deg,color-mix(in_srgb,var(--primary)_50%,transparent),color-mix(in_srgb,var(--cyan)_15%,transparent),color-mix(in_srgb,var(--violet)_50%,transparent),color-mix(in_srgb,var(--primary)_15%,transparent))] opacity-70 blur-2xl"
+            animate={reduce ? undefined : { rotate: 360, scale: [1, 1.04, 1] }}
+            transition={{ rotate: { duration: 22, repeat: Infinity, ease: 'linear' }, scale: { duration: 6, repeat: Infinity, ease: 'easeInOut' } }}
+          />
+          <div className="absolute -inset-10 -z-10 rounded-full bg-primary/10 blur-3xl [html[data-theme='light']_&]:bg-primary/5" />
 
           <div className="portrait-frame relative h-full w-full rounded-full p-[2px] shadow-[0_30px_90px_-30px_rgba(56,189,248,0.55),0_0_60px_-20px_rgba(168,85,247,0.5)]">
             <div className="h-full w-full rounded-full bg-base/90 p-[7px]">

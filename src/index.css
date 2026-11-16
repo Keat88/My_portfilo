@@ -21,6 +21,7 @@
   --animate-pulse-glow: pulse-glow 6s ease-in-out infinite;
   --animate-aurora: aurora-drift 20s ease-in-out infinite alternate;
   --animate-scroll-dot: scroll-dot 2.4s ease-in-out infinite;
+  --animate-gradient-shift: gradient-shift 8s ease infinite;
 }
 
 @keyframes spin-slow {
@@ -95,6 +96,33 @@
   100% {
     transform: translateY(12px);
     opacity: 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes mesh-drift {
+  0% {
+    background-position: 0% 0%;
+    transform: scale(1);
+  }
+  50% {
+    background-position: 60% 40%;
+    transform: scale(1.04);
+  }
+  100% {
+    background-position: 100% 100%;
+    transform: scale(1);
   }
 }
 
@@ -302,6 +330,15 @@
   color: transparent;
 }
 
+@utility text-gradient-animated {
+  background-image: linear-gradient(110deg, var(--primary) 0%, var(--cyan) 35%, var(--violet) 65%, var(--primary) 100%);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
 @layer components {
   .bg-grid {
     background-image:
@@ -310,6 +347,20 @@
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 25%, transparent 78%);
     -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 25%, transparent 78%);
+  }
+
+  .bg-mesh {
+    background-image:
+      radial-gradient(ellipse 55% 45% at 20% 30%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 60%),
+      radial-gradient(ellipse 45% 40% at 80% 20%, color-mix(in srgb, var(--violet) 16%, transparent), transparent 60%),
+      radial-gradient(ellipse 50% 45% at 70% 75%, color-mix(in srgb, var(--cyan) 14%, transparent), transparent 60%),
+      radial-gradient(ellipse 40% 35% at 15% 80%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 60%);
+    background-size: 140% 140%;
+    animation: mesh-drift 26s ease-in-out infinite alternate;
+  }
+
+  [data-theme='light'] .bg-mesh {
+    opacity: 0.55;
   }
 
   .aurora-blob {

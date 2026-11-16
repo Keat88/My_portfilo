@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../../data/personalInfo'
 import AnimatedBackground from '../animations/AnimatedBackground'
+import TextReveal from '../animations/TextReveal'
 import Button from '../common/Button'
 import SocialLinks from '../common/SocialLinks'
 import Container from '../layout/Container'
@@ -11,12 +12,12 @@ import ProfilePortrait from '../hero/ProfilePortrait'
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
 }
 
 const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 28, filter: 'blur(6px)' },
+  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function Hero() {
@@ -25,8 +26,8 @@ export default function Hero() {
   const reduce = useReducedMotion()
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
-  const parallaxX = useSpring(rawX, { stiffness: 55, damping: 16, mass: 0.5 })
-  const parallaxY = useSpring(rawY, { stiffness: 55, damping: 16, mass: 0.5 })
+  const parallaxX = useSpring(rawX, { stiffness: 55, damping: 18, mass: 0.6 })
+  const parallaxY = useSpring(rawY, { stiffness: 55, damping: 18, mass: 0.6 })
 
   const handlePointerMove = (event) => {
     if (reduce || event.pointerType === 'touch') return
@@ -54,7 +55,7 @@ export default function Hero() {
       onPointerLeave={resetParallax}
       className="relative isolate overflow-hidden pb-20 pt-28 sm:pt-36 lg:min-h-screen lg:pb-24 lg:pt-40"
     >
-      <AnimatedBackground />
+      <AnimatedBackground parallaxX={parallaxX} parallaxY={parallaxY} showMesh showSpotlight />
 
       <Container className="relative z-10">
         <div className="grid items-center gap-14 sm:gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
@@ -75,20 +76,31 @@ export default function Hero() {
               variants={item}
               className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-tight text-ink sm:text-6xl lg:text-7xl"
             >
-              {firstName}
+              <TextReveal text={firstName} as="span" className="inline-block" delay={0.1} stagger={0.045} />
               {lastName && (
                 <>
                   {' '}
-                  <span className="text-gradient">{lastName}</span>
+                  <TextReveal
+                    text={lastName}
+                    as="span"
+                    className="text-gradient-animated inline-block"
+                    delay={0.35}
+                    stagger={0.045}
+                  />
                 </>
               )}
             </motion.h1>
 
             <motion.div variants={item} className="mt-6 flex items-center gap-3">
               <span className="h-8 w-[2px] rounded-full bg-gradient-to-b from-primary via-cyan to-violet" />
-              <p className="font-display text-lg text-[var(--text-soft)] sm:text-xl">
+              <motion.p
+                className="font-display text-lg text-[var(--text-soft)] sm:text-xl"
+                initial={reduce ? false : { opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              >
                 {t('hero.role')}
-              </p>
+              </motion.p>
             </motion.div>
 
             <motion.p
@@ -128,9 +140,9 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            initial={reduce ? false : { opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduce ? false : { opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
             <ProfilePortrait parallaxX={parallaxX} parallaxY={parallaxY} />
