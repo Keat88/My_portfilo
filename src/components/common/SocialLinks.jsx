@@ -24,7 +24,7 @@ export default function SocialLinks({ className, size = 'md' }) {
               aria-label={link.label}
               title={link.label}
               className={cn(
-                'group relative grid place-items-center rounded-xl border border-white/10 bg-white/[0.03] text-muted transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/10 hover:text-primary hover:shadow-[0_8px_30px_-12px_rgba(56,189,248,0.7)]',
+                'group relative grid place-items-center rounded-xl border border-[var(--overlay-border)] bg-[var(--overlay-soft)] text-muted transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/10 hover:text-primary hover:shadow-[0_8px_30px_-12px_rgba(56,189,248,0.7)]',
                 size === 'sm' ? 'h-9 w-9' : 'h-10 w-10',
               )}
             >

@@ -2,11 +2,11 @@ import { cn } from '../../utils/cn'
 
 const variants = {
   primary:
-    'bg-gradient-to-r from-primary via-cyan to-violet text-[#04101f] font-semibold shadow-[0_12px_45px_-14px_rgba(56,189,248,0.85)] hover:-translate-y-0.5 hover:shadow-[0_18px_55px_-14px_rgba(56,189,248,0.95)]',
+    'bg-gradient-to-r from-primary via-cyan to-violet text-[var(--btn-primary-fg)] font-semibold shadow-[0_12px_45px_-14px_rgba(56,189,248,0.85)] hover:-translate-y-0.5 hover:shadow-[0_18px_55px_-14px_rgba(56,189,248,0.95)]',
   outline:
-    'border border-white/15 bg-white/[0.03] text-ink backdrop-blur-md hover:-translate-y-0.5 hover:border-primary/45 hover:bg-primary/10 hover:text-white',
+    'border border-[var(--overlay-border)] bg-[var(--overlay-soft)] text-ink backdrop-blur-md hover:-translate-y-0.5 hover:border-primary/45 hover:bg-primary/10 hover:text-ink',
   ghost:
-    'text-muted hover:bg-white/5 hover:text-ink',
+    'text-muted hover:bg-[var(--overlay-softer)] hover:text-ink',
 }
 
 const sizes = {

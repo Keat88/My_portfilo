@@ -1,4 +1,5 @@
-﻿import { useMemo } from 'react'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import ScrollReveal from '../animations/ScrollReveal'
 import SectionHeading from '../common/SectionHeading'
 import SkillBar from '../common/SkillBar'
@@ -8,6 +9,7 @@ import { getTechIcon } from '../../utils/techIcons'
 import { cn } from '../../utils/cn'
 
 export default function Skills() {
+  const { t } = useTranslation()
   const categories = useMemo(() => skills.categories, [])
 
   return (
@@ -15,9 +17,9 @@ export default function Skills() {
       <Container>
         <ScrollReveal>
           <SectionHeading
-            eyebrow="02 / Skills"
-            title="Technical Skills"
-            description="The backend, frontend, database, and tooling stack I work with, shown with configurable proficiency levels."
+            eyebrow={t('skills.eyebrow')}
+            title={t('skills.title')}
+            description={t('skills.description')}
             align="center"
             className="mb-12 sm:mb-14"
           />
@@ -33,7 +35,7 @@ export default function Skills() {
                   <div className="mb-6 flex items-center gap-3">
                     <span className="h-2 w-2 rounded-full bg-gradient-to-r from-primary to-violet shadow-[0_0_12px_rgba(56,189,248,0.8)]" />
                     <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
-                      {category.title}
+                      {t(`skills.categories.${category.id}`)}
                     </h3>
                   </div>
 
@@ -44,7 +46,7 @@ export default function Skills() {
                         <div
                           key={item.name}
                           className={cn(
-                            'flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 text-xs text-slate-200',
+                            'flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 text-xs text-[var(--text-soft)]',
                             'transition-all duration-300 hover:border-primary/40 hover:bg-primary/10 hover:text-ink hover:shadow-[0_0_20px_-8px_rgba(56,189,248,0.7)]',
                           )}
                         >

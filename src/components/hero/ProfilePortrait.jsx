@@ -1,10 +1,12 @@
 import { motion, useReducedMotion, useTransform } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../../data/personalInfo'
 import FloatingParticles from '../animations/FloatingParticles'
 import NeonRings from '../animations/NeonRings'
 import TechBadges from './TechBadges'
 
 export default function ProfilePortrait({ parallaxX, parallaxY }) {
+  const { t } = useTranslation()
   const reduce = useReducedMotion()
   const ringsX = useTransform(parallaxX, [-0.5, 0.5], [18, -18])
   const ringsY = useTransform(parallaxY, [-0.5, 0.5], [14, -14])
@@ -37,7 +39,7 @@ export default function ProfilePortrait({ parallaxX, parallaxY }) {
 
           <div className="portrait-frame relative h-full w-full rounded-full p-[2px] shadow-[0_30px_90px_-30px_rgba(56,189,248,0.55),0_0_60px_-20px_rgba(168,85,247,0.5)]">
             <div className="h-full w-full rounded-full bg-base/90 p-[7px]">
-              <div className="relative h-full w-full overflow-hidden rounded-full border border-white/10 bg-surface">
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-[var(--overlay-border)] bg-surface">
                 <img
                   src={personalInfo.profileImage}
                   alt={personalInfo.profileImageAlt}
@@ -47,15 +49,15 @@ export default function ProfilePortrait({ parallaxX, parallaxY }) {
                   className="h-full w-full object-cover object-center"
                 />
 
-                <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-t from-base/75 via-transparent to-transparent" />
-                <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_70px_rgba(56,189,248,0.16),inset_0_0_34px_rgba(168,85,247,0.14)]" />
-                <div className="pointer-events-none absolute inset-x-10 top-1 h-16 rounded-full bg-white/10 blur-2xl" />
+                <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-t from-[var(--hero-fade)]/70 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_70px_color-mix(in_srgb,var(--primary)_16%,transparent),inset_0_0_34px_color-mix(in_srgb,var(--violet)_14%,transparent)]" />
+                <div className="pointer-events-none absolute inset-x-10 top-1 h-16 rounded-full bg-white/10 blur-2xl [html[data-theme='light']_&]:bg-white/40" />
               </div>
             </div>
           </div>
 
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-[#070d1f]/90 px-4 py-1.5 font-mono text-[9px] uppercase tracking-[0.28em] text-slate-300 shadow-[0_10px_30px_-10px_rgba(2,6,23,1)] backdrop-blur-md">
-            {personalInfo.role}
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-[var(--overlay-border)] bg-[var(--portrait-role-bg)] px-4 py-1.5 font-mono text-[9px] uppercase tracking-[0.28em] text-[var(--badge-text)] shadow-[var(--shadow-glow)] backdrop-blur-md">
+            {t('hero.role')}
           </div>
         </motion.div>
       </motion.div>

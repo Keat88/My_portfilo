@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "title": "Keng Keat — Backend & Full-Stack Developer",
+    "description": "Portfolio of Keng Keat, a backend and full-stack developer building scalable systems, secure REST APIs, and modern web applications with Java, Spring Boot, and React.",
+    "ogTitle": "Keng Keat — Backend & Full-Stack Developer",
+    "ogDescription": "Scalable backend systems, secure REST APIs, and modern web applications built with Java, Spring Boot, and React.",
+    "ogSiteName": "Keng Keat — Developer Portfolio",
+    "ogImageAlt": "Keng Keat — Backend and Full-Stack Developer"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "homeAria": "{{name}} — home",
+    "scrollToAbout": "Scroll to about section",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primaryNav": "Primary",
+    "mobileNav": "Mobile",
+    "projectThumbnail": "Project thumbnail",
+    "thumbnailAlt": "{{name}} thumbnail"
+  },
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "services": "Services",
+    "projects": "Projects",
+    "contact": "Contact",
+    "downloadCV": "Download CV",
+    "portfolio": "Portfolio"
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "role": "Backend & Full-Stack Developer",
+    "description": "I build scalable backend systems, secure REST APIs, and modern web applications. Passionate about solving real-world problems through clean code, creative thinking, and modern technologies.",
+    "talk": "Let's Talk",
+    "explore": "Explore My Work",
+    "downloadCV": "Download CV",
+    "findMeOn": "Find me on",
+    "scroll": "Scroll"
+  },
+  "about": {
+    "eyebrow": "01 / About",
+    "title": "About Me",
+    "phase": "Phase 2",
+    "description": "Hello, my name is Keng Keat. I am a second-year Information Technology student studying on a 100% scholarship at The University of Cambodia. Alongside my degree, I gain hands-on industry experience working as a weekend student intern at ETEC Center. My ultimate career goal is to become a professional full-stack software engineer. I specialize in building full-stack web applications using React, Tailwind CSS, Laravel, Spring Boot, and MySQL. I love turning ideas into clean, functional user interfaces and robust backend systems, and I am always excited to tackle new technical challenges."
+  },
+  "skills": {
+    "eyebrow": "02 / Skills",
+    "title": "Technical Skills",
+    "description": "The backend, frontend, database, and tooling stack I work with, shown with configurable proficiency levels.",
+    "categories": {
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "database": "Database",
+      "tools": "Tools"
+    }
+  },
+  "services": {
+    "eyebrow": "03 / Services",
+    "title": "What I Do",
+    "description": "Focused services for building reliable backends, complete web products, and clean API integrations.",
+    "items": {
+      "backend": {
+        "title": "Backend Development",
+        "description": "Robust server-side systems, business logic, and data-driven application backends built for reliability and maintainability."
+      },
+      "fullstack": {
+        "title": "Full-Stack Web Development",
+        "description": "End-to-end web applications combining modern interfaces with solid APIs, databases, and deployment-ready architecture."
+      },
+      "api": {
+        "title": "REST API Development",
+        "description": "Secure, well-structured RESTful APIs with clear contracts, authentication, and documentation for scalable integrations."
+      }
+    }
+  },
+  "projects": {
+    "eyebrow": "04 / Projects",
+    "title": "Featured Projects",
+    "description": "Selected work across contact management, learning platforms, POS systems, and secure APIs.",
+    "status": {
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "viewDetails": "View Details",
+    "github": "GitHub",
+    "liveDemo": "Live Demo",
+    "items": {
+      "contacthub": {
+        "name": "ContactHub",
+        "description": "Personal & Business Contact Management System.",
+        "highlights": {
+          "authentication": "Authentication",
+          "contactManagement": "Contact management",
+          "roleBasedAccess": "Role-based access"
+        }
+      },
+      "learnhub": {
+        "name": "LearnHub",
+        "description": "Learning Management System.",
+        "highlights": {
+          "courses": "Courses",
+          "lessons": "Lessons",
+          "enrollments": "Enrollments",
+          "studentProgress": "Student progress"
+        }
+      },
+      "restaurant-pos": {
+        "name": "Restaurant POS System",
+        "description": "Multi-branch Restaurant Management System.",
+        "highlights": {
+          "orders": "Orders",
+          "inventory": "Inventory",
+          "payments": "Payments",
+          "employeeRoles": "Employee roles"
+        }
+      },
+      "product-crud-api": {
+        "name": "Product CRUD API",
+        "description": "Spring Boot REST API."
+      }
+    }
+  },
+  "journey": {
+    "eyebrow": "05 / Journey",
+    "title": "Development Journey",
+    "phase": "Phase 3",
+    "description": "A timeline of milestones, from first lines of code to production-ready systems."
+  },
+  "contact": {
+    "eyebrow": "06 / Contact",
+    "title": "Let's Work Together",
+    "description": "Have a project, a role, or an idea worth building? Send a message and I'll get back to you.",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "How can I help?",
+      "message": "Message",
+      "messagePlaceholder": "Tell me about your project or idea...",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "validation": {
+        "required": "This field is required.",
+        "email": "Please enter a valid email address.",
+        "minMessage": "Message must be at least 10 characters."
+      },
+      "success": "Thank you! Your message has been sent successfully.",
+      "error": "Something went wrong. Please try again later."
+    },
+    "details": {
+      "title": "Contact details",
+      "emailLabel": "Email",
+      "locationLabel": "Location",
+      "locationValue": "Cambodia"
+    },
+    "links": {
+      "title": "Links",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
+  },
+  "footer": {
+    "description": "Building scalable backend systems and modern web applications.",
+    "navigation": "Navigation",
+    "social": "Social",
+    "copyright": "© {{year}} {{name}}. All rights reserved."
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "km": "Khmer",
+    "switchTo": "Switch language"
+  },
+  "theme": {
+    "dark": "Dark mode",
+    "light": "Light mode",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
+  }
+}

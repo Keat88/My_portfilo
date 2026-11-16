@@ -1,20 +1,30 @@
-﻿import { ExternalLink, ImageOff } from 'lucide-react'
+import { ExternalLink, ImageOff } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
 import ScrollReveal from '../animations/ScrollReveal'
 import SectionHeading from '../common/SectionHeading'
 import Container from '../layout/Container'
 import { projects } from '../../data/projects'
 import { cn } from '../../utils/cn'
 
+const highlightKeyMap = {
+  contacthub: ['authentication', 'contactManagement', 'roleBasedAccess'],
+  learnhub: ['courses', 'lessons', 'enrollments', 'studentProgress'],
+  'restaurant-pos': ['orders', 'inventory', 'payments', 'employeeRoles'],
+  'product-crud-api': [],
+}
+
 export default function Projects() {
+  const { t } = useTranslation()
+
   return (
     <section id="projects" className="relative py-16 sm:py-20">
       <Container>
         <ScrollReveal>
           <SectionHeading
-            eyebrow="04 / Projects"
-            title="Featured Projects"
-            description="Selected work across contact management, learning platforms, POS systems, and secure APIs."
+            eyebrow={t('projects.eyebrow')}
+            title={t('projects.title')}
+            description={t('projects.description')}
             align="center"
             className="mb-12 sm:mb-14"
           />
@@ -24,15 +34,24 @@ export default function Projects() {
           {projects.map((project, idx) => {
             const hasGithub = Boolean(project.githubUrl)
             const hasLive = Boolean(project.liveUrl)
+            const name = t(`projects.items.${project.id}.name`)
+            const description = t(`projects.items.${project.id}.description`)
+            const highlightKeys = highlightKeyMap[project.id] || []
+            const statusLabel =
+              project.status === 'In Progress'
+                ? t('projects.status.inProgress')
+                : project.status === 'Completed'
+                  ? t('projects.status.completed')
+                  : project.status
 
             return (
               <ScrollReveal key={project.id} delay={idx * 0.08}>
                 <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_80px_-35px_rgba(56,189,248,0.55)]">
-                  <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#0b1120] via-[#0f172a] to-[#101a30]">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-white/10 bg-gradient-to-br from-[var(--surface)] via-[var(--card)] to-[var(--surface)]">
                     {project.image ? (
                       <img
                         src={project.image}
-                        alt={`${project.name} thumbnail`}
+                        alt={t('a11y.thumbnailAlt', { name })}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"
                       />
@@ -42,33 +61,33 @@ export default function Projects() {
                           <ImageOff className="h-6 w-6" aria-hidden="true" />
                         </div>
                         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted/70">
-                          Project thumbnail
+                          {t('a11y.projectThumbnail')}
                         </span>
                       </div>
                     )}
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050816]/70 via-transparent to-transparent opacity-80" />
-                    {project.status && (
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--hero-fade)]/70 via-transparent to-transparent opacity-80" />
+                    {statusLabel && (
                       <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-amber-200/90 backdrop-blur-sm">
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-300" />
-                        {project.status}
+                        {statusLabel}
                       </span>
                     )}
                   </div>
 
                   <div className="flex flex-1 flex-col p-6 sm:p-7">
                     <h3 className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-                      {project.name}
+                      {name}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted">
-                      {project.description}
+                      {description}
                     </p>
 
-                    {project.highlights?.length > 0 && (
-                      <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-300/90">
-                        {project.highlights.map((h) => (
-                          <li key={h} className="flex items-center gap-1.5">
+                    {highlightKeys.length > 0 && (
+                      <ul className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[var(--text-soft)]">
+                        {highlightKeys.map((key) => (
+                          <li key={key} className="flex items-center gap-1.5">
                             <span className="h-1 w-1 rounded-full bg-primary/70" />
-                            {h}
+                            {t(`projects.items.${project.id}.highlights.${key}`)}
                           </li>
                         ))}
                       </ul>
@@ -78,7 +97,7 @@ export default function Projects() {
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium text-slate-200 transition-colors hover:border-primary/40 hover:text-ink"
+                          className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium text-[var(--text-soft)] transition-colors hover:border-primary/40 hover:text-ink"
                         >
                           {tech}
                         </span>
@@ -99,7 +118,7 @@ export default function Projects() {
                         )}
                       >
                         <FaGithub className="h-4 w-4" aria-hidden="true" />
-                        GitHub
+                        {t('projects.github')}
                       </a>
                       <a
                         href={hasLive ? project.liveUrl : undefined}
@@ -114,7 +133,7 @@ export default function Projects() {
                         )}
                       >
                         <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                        Live Demo
+                        {t('projects.liveDemo')}
                       </a>
                     </div>
                   </div>

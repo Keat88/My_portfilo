@@ -34,7 +34,7 @@ export default function SectionHeading({
         )}
       </h2>
       {description && (
-        <p className="mt-4 text-sm leading-relaxed text-muted sm:text-white">{description}</p>
+        <p className="mt-4 text-sm leading-relaxed text-muted sm:text-[var(--text-soft)]">{description}</p>
       )}
     </div>
   )

@@ -3,9 +3,9 @@ export default function NeonRings() {
     <div className="pointer-events-none absolute inset-0" aria-hidden="true">
       <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.16)_0%,rgba(168,85,247,0.1)_45%,transparent_70%)] blur-2xl" />
 
-      <div className="absolute inset-[2%] rounded-full border border-white/[0.06]" />
+      <div className="absolute inset-[2%] rounded-full border border-[var(--ring-border)]" />
 
-      <div className="animate-spin-slower absolute inset-[2%] rounded-full border border-dashed border-white/10">
+      <div className="animate-spin-slower absolute inset-[2%] rounded-full border border-dashed border-[var(--ring-border-dash)]">
         <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_14px_5px_rgba(56,189,248,0.55)]" />
       </div>
 

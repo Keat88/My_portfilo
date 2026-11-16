@@ -52,10 +52,10 @@ function TechBadge({ badge, index, parallaxX, parallaxY, reduce }) {
           ease: 'easeInOut',
           delay: index * 0.4,
         }}
-        className="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#081022]/85 px-2.5 py-2 shadow-[0_16px_45px_-16px_rgba(2,6,23,0.95)] backdrop-blur-md"
+        className="flex items-center gap-2 rounded-2xl border border-[var(--overlay-border)] bg-[var(--badge-bg)] px-2.5 py-2 shadow-[var(--shadow-glow)] backdrop-blur-md"
       >
         <Icon aria-hidden="true" className="h-4 w-4 shrink-0" style={{ color: badge.color }} />
-        <span className="whitespace-nowrap text-[11px] font-medium text-slate-200">
+        <span className="whitespace-nowrap text-[11px] font-medium text-[var(--text-soft)]">
           {badge.name}
         </span>
       </motion.div>

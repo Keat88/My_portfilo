@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
 import { ArrowDown, ArrowUpRight, Download } from 'lucide-react'
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../../data/personalInfo'
 import AnimatedBackground from '../animations/AnimatedBackground'
 import Button from '../common/Button'
@@ -19,6 +20,7 @@ const item = {
 }
 
 export default function Hero() {
+  const { t } = useTranslation()
   const heroRef = useRef(null)
   const reduce = useReducedMotion()
   const rawX = useMotionValue(0)
@@ -65,7 +67,7 @@ export default function Hero() {
             <motion.div variants={item} className="flex items-center gap-3">
               <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
               <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-primary/90">
-                Hello, I&apos;m
+                {t('hero.greeting')}
               </span>
             </motion.div>
 
@@ -84,24 +86,24 @@ export default function Hero() {
 
             <motion.div variants={item} className="mt-6 flex items-center gap-3">
               <span className="h-8 w-[2px] rounded-full bg-gradient-to-b from-primary via-cyan to-violet" />
-              <p className="font-display text-lg text-slate-200 sm:text-xl">
-                {personalInfo.role}
+              <p className="font-display text-lg text-[var(--text-soft)] sm:text-xl">
+                {t('hero.role')}
               </p>
             </motion.div>
 
             <motion.p
               variants={item}
-              className="mt-6 max-w-xl text-sm leading-relaxed text-muted sm:text-white"
+              className="mt-6 max-w-xl text-sm leading-relaxed text-muted sm:text-[var(--text-soft)]"
             >
-              {personalInfo.bio}
+              {t('hero.description')}
             </motion.p>
 
             <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-3">
               <Button href="#contact" size="lg" icon={ArrowUpRight}>
-                Let&apos;s Talk
+                {t('hero.talk')}
               </Button>
               <Button href="#projects" size="lg" variant="outline" icon={ArrowDown}>
-                Explore My Work
+                {t('hero.explore')}
               </Button>
               <Button
                 href={personalInfo.cvUrl}
@@ -112,15 +114,15 @@ export default function Hero() {
                 iconPosition="left"
                 className="px-3"
               >
-                Download CV
+                {t('hero.downloadCV')}
               </Button>
             </motion.div>
 
             <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted/70">
-                Find me on
+                {t('hero.findMeOn')}
               </span>
-              <span className="hidden h-px w-8 bg-white/10 sm:block" />
+              <span className="hidden h-px w-8 bg-[var(--overlay-border-soft)] sm:block" />
               <SocialLinks />
             </motion.div>
           </motion.div>
@@ -138,11 +140,11 @@ export default function Hero() {
 
       <a
         href="#about"
-        aria-label="Scroll to about section"
+        aria-label={t('a11y.scrollToAbout')}
         className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-ink lg:flex"
       >
-        <span className="font-mono text-[9px] uppercase tracking-[0.3em]">Scroll</span>
-        <span className="relative flex h-8 w-5 justify-center rounded-full border border-white/20 pt-1.5">
+        <span className="font-mono text-[9px] uppercase tracking-[0.3em]">{t('hero.scroll')}</span>
+        <span className="relative flex h-8 w-5 justify-center rounded-full border border-[var(--overlay-border)] pt-1.5">
           <span className="animate-scroll-dot h-1 w-1 rounded-full bg-primary" />
         </span>
       </a>
