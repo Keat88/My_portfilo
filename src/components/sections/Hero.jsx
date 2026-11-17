@@ -1,8 +1,9 @@
-import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
-import { ArrowDown, ArrowUpRight, Download } from 'lucide-react'
-import { useRef } from 'react'
+import { motion, useInView, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../../data/personalInfo'
+import { usePointerFine } from '../../hooks/usePointerFine'
 import AnimatedBackground from '../animations/AnimatedBackground'
 import TextReveal from '../animations/TextReveal'
 import Button from '../common/Button'
@@ -16,30 +17,45 @@ const container = {
 }
 
 const item = {
-  hidden: { opacity: 0, y: 28, filter: 'blur(6px)' },
-  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function Hero() {
   const { t } = useTranslation()
   const heroRef = useRef(null)
   const reduce = useReducedMotion()
+  const pointerFine = usePointerFine()
+  const inView = useInView(heroRef, { margin: '150px 0px 150px 0px' })
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
   const parallaxX = useSpring(rawX, { stiffness: 55, damping: 18, mass: 0.6 })
   const parallaxY = useSpring(rawY, { stiffness: 55, damping: 18, mass: 0.6 })
+  const frameRef = useRef(0)
+  const pointRef = useRef({ x: 0, y: 0 })
+  const canParallax = pointerFine && !reduce && inView
 
   const handlePointerMove = (event) => {
-    if (reduce || event.pointerType === 'touch') return
+    if (!canParallax) return
 
-    const rect = heroRef.current?.getBoundingClientRect()
-    if (!rect) return
+    pointRef.current.x = event.clientX / window.innerWidth - 0.5
+    pointRef.current.y = event.clientY / window.innerHeight - 0.5
 
-    rawX.set((event.clientX - rect.left) / rect.width - 0.5)
-    rawY.set((event.clientY - rect.top) / rect.height - 0.5)
+    if (frameRef.current) return
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = 0
+      rawX.set(pointRef.current.x)
+      rawY.set(pointRef.current.y)
+    })
   }
 
+  useEffect(() => () => cancelAnimationFrame(frameRef.current), [])
+
   const resetParallax = () => {
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current)
+      frameRef.current = 0
+    }
     rawX.set(0)
     rawY.set(0)
   }
@@ -53,9 +69,15 @@ export default function Hero() {
       id="home"
       onPointerMove={handlePointerMove}
       onPointerLeave={resetParallax}
-      className="relative isolate overflow-hidden pb-20 pt-28 sm:pt-36 lg:min-h-screen lg:pb-24 lg:pt-40"
+      className={`relative isolate overflow-hidden pb-20 pt-28 sm:pt-36 lg:min-h-screen lg:pb-24 lg:pt-40${inView ? '' : ' anim-paused'}`}
     >
-      <AnimatedBackground parallaxX={parallaxX} parallaxY={parallaxY} showMesh showSpotlight />
+      <AnimatedBackground
+        parallaxX={parallaxX}
+        parallaxY={parallaxY}
+        showMesh
+        showSpotlight
+        paused={!inView}
+      />
 
       <Container className="relative z-10">
         <div className="grid items-center gap-14 sm:gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
@@ -117,7 +139,7 @@ export default function Hero() {
               <Button href="#projects" size="lg" variant="outline" icon={ArrowDown}>
                 {t('hero.explore')}
               </Button>
-              <Button
+              {/* <Button
                 href={personalInfo.cvUrl}
                 download
                 size="lg"
@@ -127,7 +149,7 @@ export default function Hero() {
                 className="px-3"
               >
                 {t('hero.downloadCV')}
-              </Button>
+              </Button> */}
             </motion.div>
 
             <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
@@ -145,7 +167,12 @@ export default function Hero() {
             transition={{ duration: 1.1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            <ProfilePortrait parallaxX={parallaxX} parallaxY={parallaxY} />
+            <ProfilePortrait
+              parallaxX={parallaxX}
+              parallaxY={parallaxY}
+              parallax={canParallax}
+              paused={!inView}
+            />
           </motion.div>
         </div>
       </Container>

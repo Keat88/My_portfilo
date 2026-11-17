@@ -1,17 +1,25 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { cn } from '../../utils/cn'
 
+const MOTION_TAGS = {
+  span: motion.span,
+  div: motion.div,
+  p: motion.p,
+  h1: motion.h1,
+  h2: motion.h2,
+  h3: motion.h3,
+}
+
 export default function TextReveal({
   text,
   as: Tag = 'span',
   className,
   delay = 0,
   stagger = 0.035,
-  once = true,
   type = 'chars',
 }) {
   const reduce = useReducedMotion()
-  const MotionTag = motion.create(Tag)
+  const MotionTag = MOTION_TAGS[Tag] ?? motion.span
 
   if (reduce) {
     return <Tag className={className}>{text}</Tag>
@@ -37,11 +45,10 @@ export default function TextReveal({
           style={{ whiteSpace: token.trim() === '' ? 'pre' : undefined }}
           aria-hidden="true"
           variants={{
-            hidden: { opacity: 0, y: '0.6em', filter: 'blur(8px)' },
+            hidden: { opacity: 0, y: '0.6em' },
             show: {
               opacity: 1,
               y: 0,
-              filter: 'blur(0px)',
               transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
             },
           }}

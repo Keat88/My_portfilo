@@ -28,7 +28,7 @@ export default function Skills() {
         <div className="grid gap-6 lg:grid-cols-2">
           {categories.map((category, idx) => (
             <ScrollReveal key={category.id} delay={idx * 0.08}>
-              <div className="group relative h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_70px_-30px_rgba(56,189,248,0.5)] sm:p-7">
+              <div className="group relative h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_70px_-30px_rgba(56,189,248,0.5)] sm:p-7">
                 <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
                 <div className="pointer-events-none absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-violet/10 blur-3xl opacity-60" />
                 <div className="relative">

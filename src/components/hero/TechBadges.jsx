@@ -34,37 +34,35 @@ const badges = [
   },
 ]
 
-function TechBadge({ badge, index, parallaxX, parallaxY, reduce }) {
+function TechBadge({ badge, index, parallaxX, parallaxY, active }) {
   const x = useTransform(parallaxX, [-0.5, 0.5], [badge.depth, -badge.depth])
   const y = useTransform(parallaxY, [-0.5, 0.5], [badge.depth * 0.7, -badge.depth * 0.7])
   const { Icon } = badge
 
   return (
     <motion.div
-      style={{ x: reduce ? 0 : x, y: reduce ? 0 : y }}
+      style={{ x: active ? x : 0, y: active ? y : 0 }}
       className={cn('absolute', badge.position)}
     >
-      <motion.div
-        animate={reduce ? undefined : { y: [0, -7, 0] }}
-        transition={{
-          duration: 5 + index,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: index * 0.4,
+      <div
+        className="animate-float flex items-center gap-2 rounded-2xl border border-[var(--overlay-border)] bg-[var(--badge-bg)] px-2.5 py-2 shadow-[var(--shadow-glow)] backdrop-blur-md"
+        style={{
+          animationDuration: `${5 + index}s`,
+          animationDelay: `${index * 0.4}s`,
         }}
-        className="flex items-center gap-2 rounded-2xl border border-[var(--overlay-border)] bg-[var(--badge-bg)] px-2.5 py-2 shadow-[var(--shadow-glow)] backdrop-blur-md"
       >
         <Icon aria-hidden="true" className="h-4 w-4 shrink-0" style={{ color: badge.color }} />
         <span className="whitespace-nowrap text-[11px] font-medium text-[var(--text-soft)]">
           {badge.name}
         </span>
-      </motion.div>
+      </div>
     </motion.div>
   )
 }
 
-export default function TechBadges({ parallaxX, parallaxY }) {
+export default function TechBadges({ parallaxX, parallaxY, parallax = true }) {
   const reduce = useReducedMotion()
+  const active = parallax && !reduce
 
   return (
     <div className="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
@@ -75,7 +73,7 @@ export default function TechBadges({ parallaxX, parallaxY }) {
           index={index}
           parallaxX={parallaxX}
           parallaxY={parallaxY}
-          reduce={reduce}
+          active={active}
         />
       ))}
     </div>

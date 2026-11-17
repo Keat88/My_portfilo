@@ -26,7 +26,7 @@ export default function Services() {
             const Icon = getTechIcon(service.icon)
             return (
               <ScrollReveal key={service.id} delay={idx * 0.08}>
-                <article className="group relative h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.25),0_25px_70px_-30px_rgba(56,189,248,0.55)]">
+                <article className="group relative h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-7 transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.25),0_25px_70px_-30px_rgba(56,189,248,0.55)]">
                   <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                     <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-primary/20 via-transparent to-violet/20" />
                   </div>

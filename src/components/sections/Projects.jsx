@@ -46,7 +46,7 @@ export default function Projects() {
 
             return (
               <ScrollReveal key={project.id} delay={idx * 0.08}>
-                <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_80px_-35px_rgba(56,189,248,0.55)]">
+                <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] transition-all duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_24px_80px_-35px_rgba(56,189,248,0.55)]">
                   <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-white/10 bg-gradient-to-br from-[var(--surface)] via-[var(--card)] to-[var(--surface)]">
                     {project.image ? (
                       <img
@@ -54,6 +54,7 @@ export default function Projects() {
                         alt={t('a11y.thumbnailAlt', { name })}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center gap-3 text-muted">

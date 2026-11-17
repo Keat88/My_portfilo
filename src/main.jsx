@@ -4,7 +4,6 @@ import './index.css'
 import './i18n'
 import App from './App.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
-import 'flag-icons/css/flag-icons.min.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

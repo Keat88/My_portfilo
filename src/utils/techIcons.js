@@ -1,12 +1,48 @@
-﻿import * as Si from 'react-icons/si'
+﻿import { Server, Layers } from 'lucide-react'
+import {
+  SiApachemaven,
+  SiDocker,
+  SiGithub,
+  SiHtml5,
+  SiJavascript,
+  SiLaravel,
+  SiMysql,
+  SiPhp,
+  SiPostgresql,
+  SiPostman,
+  SiReact,
+  SiSpring,
+  SiSpringboot,
+  SiSpringsecurity,
+  SiSwagger,
+  SiTailwindcss,
+} from 'react-icons/si'
 import { TbApi } from 'react-icons/tb'
-import { Server, Layers } from 'lucide-react'
+
+const iconMap = {
+  SiSpringboot,
+  SiSpringsecurity,
+  SiSpring,
+  TbApi,
+  SiPhp,
+  SiLaravel,
+  SiReact,
+  SiJavascript,
+  SiHtml5,
+  SiTailwindcss,
+  SiMysql,
+  SiPostgresql,
+  SiGithub,
+  SiDocker,
+  SiApachemaven,
+  SiPostman,
+  SiSwagger,
+  server: Server,
+  layers: Layers,
+  api: TbApi,
+}
 
 export function getTechIcon(name) {
   if (!name) return null
-  if (name === 'TbApi') return TbApi
-  if (name === 'server') return Server
-  if (name === 'layers') return Layers
-  if (name === 'api') return TbApi
-  return Si[name] || null
+  return iconMap[name] || null
 }

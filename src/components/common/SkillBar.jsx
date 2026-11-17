@@ -2,6 +2,7 @@
 
 export default function SkillBar({ name, level, delay = 0 }) {
   const reduce = useReducedMotion()
+  const scale = level / 100
 
   return (
     <div className="group">
@@ -11,9 +12,9 @@ export default function SkillBar({ name, level, delay = 0 }) {
       </div>
       <div className="relative h-2.5 overflow-hidden rounded-full border border-white/10 bg-white/[0.04]">
         <motion.div
-          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-cyan to-violet shadow-[0_0_18px_-4px_rgba(56,189,248,0.9)]"
-          initial={reduce ? { width: `${level}%` } : { width: 0 }}
-          whileInView={{ width: `${level}%` }}
+          className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-gradient-to-r from-primary via-cyan to-violet shadow-[0_0_18px_-4px_rgba(56,189,248,0.9)]"
+          initial={reduce ? { scaleX: scale } : { scaleX: 0 }}
+          whileInView={{ scaleX: scale }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay }}
         >

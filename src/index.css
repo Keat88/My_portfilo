@@ -22,6 +22,8 @@
   --animate-aurora: aurora-drift 20s ease-in-out infinite alternate;
   --animate-scroll-dot: scroll-dot 2.4s ease-in-out infinite;
   --animate-gradient-shift: gradient-shift 8s ease infinite;
+  --animate-conic-spin: conic-spin 22s linear infinite;
+  --animate-conic-pulse: conic-pulse 6s ease-in-out infinite;
 }
 
 @keyframes spin-slow {
@@ -113,16 +115,29 @@
 
 @keyframes mesh-drift {
   0% {
-    background-position: 0% 0%;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-3%, 2%, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(2%, -2%, 0) scale(1.02);
+  }
+}
+
+@keyframes conic-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes conic-pulse {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
-    background-position: 60% 40%;
     transform: scale(1.04);
-  }
-  100% {
-    background-position: 100% 100%;
-    transform: scale(1);
   }
 }
 
@@ -241,10 +256,6 @@
     min-height: 100vh;
     overflow-x: hidden;
     background-color: var(--background);
-    background-image:
-      radial-gradient(60rem 40rem at 85% -10%, var(--bg-grad-1), transparent 60%),
-      radial-gradient(50rem 36rem at 0% 18%, var(--bg-grad-2), transparent 65%);
-    background-attachment: fixed;
     color: var(--text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -253,10 +264,20 @@
     transition: background-color 300ms ease, color 300ms ease;
   }
 
+  .app-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(60rem 40rem at 85% -10%, var(--bg-grad-1), transparent 60%),
+      radial-gradient(50rem 36rem at 0% 18%, var(--bg-grad-2), transparent 65%);
+  }
+
   *,
   *::before,
   *::after {
-    transition-property: background-color, border-color, color, box-shadow, fill, stroke;
+    transition-property: background-color, border-color, color;
     transition-duration: 300ms;
     transition-timing-function: ease;
   }
@@ -357,6 +378,7 @@
       radial-gradient(ellipse 40% 35% at 15% 80%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 60%);
     background-size: 140% 140%;
     animation: mesh-drift 26s ease-in-out infinite alternate;
+    will-change: transform;
   }
 
   [data-theme='light'] .bg-mesh {
@@ -366,16 +388,25 @@
   .aurora-blob {
     position: absolute;
     border-radius: 9999px;
-    filter: blur(90px);
+    filter: blur(64px);
     mix-blend-mode: var(--aurora-blend);
     opacity: 0.55;
     animation: aurora-drift var(--duration, 20s) ease-in-out var(--delay, 0s) infinite alternate;
     will-change: transform;
+    transform: translateZ(0);
   }
 
   [data-theme='light'] .aurora-blob {
     opacity: 0.28;
-    filter: blur(110px);
+    filter: blur(80px);
+  }
+
+  /* Pauses every CSS animation inside a subtree while it is offscreen. */
+  .anim-paused,
+  .anim-paused *,
+  .anim-paused *::before,
+  .anim-paused *::after {
+    animation-play-state: paused !important;
   }
 
   .orbit-arc {
@@ -471,17 +502,37 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .bg-mesh {
+    animation: none;
+  }
+
+  .orbit-arc,
+  .orbit-arc-alt {
+    filter: none;
+  }
+}
+
 @media (max-width: 767px) {
-  .particle:nth-child(n + 9) {
+  .particle:nth-child(n + 7) {
     display: none;
   }
 
   .aurora-blob {
-    filter: blur(70px);
+    filter: blur(44px);
     opacity: 0.45;
+    mix-blend-mode: normal;
+  }
+  .aurora-blob--soft {
+    display: none;
   }
   [data-theme='light'] .aurora-blob {
     opacity: 0.22;
+    filter: blur(52px);
+  }
+
+  .particle {
+    box-shadow: 0 0 6px color-mix(in srgb, var(--cyan) 55%, transparent);
   }
 }
 

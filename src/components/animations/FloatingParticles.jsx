@@ -1,5 +1,7 @@
-const PARTICLES = Array.from({ length: 22 }, (_, index) => {
-  const angle = (index / 22) * Math.PI * 2
+const COUNT = 16
+
+const PARTICLES = Array.from({ length: COUNT }, (_, index) => {
+  const angle = (index / COUNT) * Math.PI * 2
   const radius = 42 + ((index * 37) % 7)
   const driftX = ((index * 53) % 17) - 8
   const driftY = ((index * 29) % 19) - 12

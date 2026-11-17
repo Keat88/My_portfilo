@@ -70,7 +70,7 @@ export default function Contact() {
 
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <ScrollReveal>
-            <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-sm sm:p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-8">
               <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
               <form onSubmit={handleSubmit} noValidate className="relative space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
@@ -151,7 +151,7 @@ export default function Contact() {
 
           <ScrollReveal delay={0.08}>
             <div className="flex h-full flex-col gap-4">
-              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-sm">
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <div className="pointer-events-none absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-violet/10 blur-2xl" />
                 <h3 className="relative font-display text-lg font-semibold text-ink">{t('contact.details.title')}</h3>
                 <ul className="relative mt-5 space-y-4 text-sm">
@@ -178,7 +178,7 @@ export default function Contact() {
                 </ul>
               </div>
 
-              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-sm">
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6">
                 <h3 className="font-display text-lg font-semibold text-ink">{t('contact.links.title')}</h3>
                 <div className="mt-5 flex flex-wrap gap-3">
                   {github && (

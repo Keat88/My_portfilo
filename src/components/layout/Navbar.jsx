@@ -1,20 +1,31 @@
 import { AnimatePresence, motion, useScroll } from 'framer-motion'
-import { ArrowUpRight, Check, ChevronDown, Download, Globe, Menu, X } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronDown, Globe, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import flagKh from 'flag-icons/flags/4x3/kh.svg'
+import flagSh from 'flag-icons/flags/4x3/sh.svg'
 import { navLinks } from '../../data/navigation'
 import { personalInfo } from '../../data/personalInfo'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useScrolled } from '../../hooks/useScrolled'
 import { cn } from '../../utils/cn'
-import Button from '../common/Button'
 import ThemeToggle from '../ThemeToggle'
 
 const sectionIds = navLinks.map((link) => link.id)
 
 const languages = [
-  { code: 'en', labelKey: 'language.en', short: 'EN', flag: <span class="fi fi-sh"></span> },
-  { code: 'km', labelKey: 'language.km', short: 'KH', flag: <span class="fi fi-kh"></span> },
+  {
+    code: 'en',
+    labelKey: 'language.en',
+    short: 'EN',
+    flag: <img src={flagSh} alt="" className="h-3.5 w-5 rounded-[2px] object-cover" />,
+  },
+  {
+    code: 'km',
+    labelKey: 'language.km',
+    short: 'KH',
+    flag: <img src={flagKh} alt="" className="h-3.5 w-5 rounded-[2px] object-cover" />,
+  },
 ]
 
 function LanguageSwitcher({
@@ -212,7 +223,7 @@ export default function Navbar() {
               />
             </div>
             <ThemeToggle />
-            <div className="hidden md:block">
+            {/* <div className="hidden md:block">
               <Button
                 href={personalInfo.cvUrl}
                 download
@@ -222,7 +233,7 @@ export default function Navbar() {
               >
                 {t('navbar.downloadCV')}
               </Button>
-            </div>
+            </div> */}
 
             <button
               type="button"
@@ -291,7 +302,7 @@ export default function Navbar() {
                         compact
                       />
                     </div>
-                    <Button
+                    {/* <Button
                       href={personalInfo.cvUrl}
                       download
                       size="md"
@@ -300,7 +311,7 @@ export default function Navbar() {
                       className="w-full"
                     >
                       {t('navbar.downloadCV')}
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </motion.div>

@@ -1,4 +1,4 @@
-import ImagePro from '../assets/images/00.jpg';
+import ImagePro from '../assets/images/profile.jpg';
 export const personalInfo = {
   name: 'Keng Keat',
   initials: 'KH',
