@@ -255,7 +255,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.98 }}
                 transition={{ duration: 0.22, ease: 'easeOut' }}
-                className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-50 lg:hidden"
+                className="absolute inset-x-0 top-[calc(100%+0.3rem)] z-50 lg:hidden"
               >
                 <div className="overflow-hidden rounded-2xl border border-white/10 bg-[var(--overlay-strong)] p-3 shadow-[var(--shadow-glow)] backdrop-blur-2xl [html[data-theme='light']_&]:border-slate-200/80">
                   <nav aria-label={t('a11y.mobileNav')} className="flex flex-col">
@@ -288,7 +288,7 @@ export default function Navbar() {
 
                   <div className="mt-3 space-y-2 border-t border-white/5 pt-3">
                     <div className="px-1">
-                      <div className="mb-2 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted/70">
+                      <div className="mb-2 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em]  text-muted/70">
                         <Globe className="h-3.5 w-3.5" aria-hidden="true" />
                         {t('language.label')}
                       </div>

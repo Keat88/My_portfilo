@@ -10,6 +10,17 @@ const MOTION_TAGS = {
   h3: motion.h3,
 }
 
+const graphemeSegmenter =
+  typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+    ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+    : null
+
+function splitText(text, type) {
+  if (type === 'words') return text.split(/(\s+)/)
+  if (graphemeSegmenter) return Array.from(graphemeSegmenter.segment(text), (entry) => entry.segment)
+  return Array.from(text)
+}
+
 export default function TextReveal({
   text,
   as: Tag = 'span',
@@ -25,11 +36,12 @@ export default function TextReveal({
     return <Tag className={className}>{text}</Tag>
   }
 
-  const tokens = type === 'words' ? text.split(/(\s+)/) : Array.from(text)
+  const tokens = splitText(text, type)
 
   return (
     <MotionTag
       className={cn('inline-block', className)}
+      style={{ perspective: 800 }}
       initial="hidden"
       animate="show"
       variants={{
@@ -42,14 +54,20 @@ export default function TextReveal({
         <motion.span
           key={`${token}-${i}`}
           className="inline-block"
-          style={{ whiteSpace: token.trim() === '' ? 'pre' : undefined }}
+          style={{
+            whiteSpace: token.trim() === '' ? 'pre' : undefined,
+            transformOrigin: '50% 100%',
+            transformStyle: 'preserve-3d',
+          }}
           aria-hidden="true"
           variants={{
-            hidden: { opacity: 0, y: '0.6em' },
+            hidden: { opacity: 0, y: '0.55em', rotateX: -62, filter: 'blur(7px)' },
             show: {
               opacity: 1,
               y: 0,
-              transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+              rotateX: 0,
+              filter: 'blur(0px)',
+              transition: { duration: 0.62, ease: [0.22, 1, 0.36, 1] },
             },
           }}
         >

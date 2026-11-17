@@ -1,21 +1,23 @@
-const COUNT = 16
+const COUNT = 22
+const TONES = ['primary', 'cyan', 'violet']
 
 const PARTICLES = Array.from({ length: COUNT }, (_, index) => {
-  const angle = (index / COUNT) * Math.PI * 2
-  const radius = 42 + ((index * 37) % 7)
-  const driftX = ((index * 53) % 17) - 8
-  const driftY = ((index * 29) % 19) - 12
+  const angle = (index / COUNT) * Math.PI * 2 + (index % 3) * 0.12
+  const radius = 40 + ((index * 37) % 9)
+  const driftX = ((index * 53) % 21) - 10
+  const driftY = ((index * 29) % 23) - 14
 
   return {
     id: index,
     left: 50 + Math.cos(angle) * radius,
     top: 50 + Math.sin(angle) * radius,
-    size: 2 + (index % 3),
-    opacity: 0.25 + ((index * 13) % 50) / 100,
-    delay: (index % 8) * 0.65,
-    duration: 6 + (index % 6),
+    size: 1.5 + (index % 4) * 0.7,
+    opacity: 0.24 + ((index * 13) % 46) / 100,
+    delay: (index % 9) * 0.55,
+    duration: 6 + (index % 7),
     driftX,
     driftY,
+    tone: TONES[index % TONES.length],
   }
 })
 
@@ -25,7 +27,7 @@ export default function FloatingParticles() {
       {PARTICLES.map((particle) => (
         <span
           key={particle.id}
-          className="particle"
+          className={`particle particle--${particle.tone}`}
           style={{
             left: `${particle.left}%`,
             top: `${particle.top}%`,

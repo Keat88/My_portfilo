@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, useTransform } from 'framer-motion'
+import { motion, useMotionTemplate, useReducedMotion, useTransform } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../../data/personalInfo'
 import { cn } from '../../utils/cn'
@@ -19,6 +19,11 @@ export default function ProfilePortrait({
   const ringsY = useTransform(parallaxY, [-0.5, 0.5], [14, -14])
   const portraitX = useTransform(parallaxX, [-0.5, 0.5], [-10, 10])
   const portraitY = useTransform(parallaxY, [-0.5, 0.5], [-8, 8])
+  const tiltX = useTransform(parallaxY, [-0.5, 0.5], [-4, 4])
+  const tiltY = useTransform(parallaxX, [-0.5, 0.5], [5, -5])
+  const lightX = useTransform(parallaxX, [-0.5, 0.5], [18, 82])
+  const lightY = useTransform(parallaxY, [-0.5, 0.5], [12, 88])
+  const portraitLight = useMotionTemplate`radial-gradient(circle at ${lightX}% ${lightY}%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.08) 24%, transparent 52%)`
 
   return (
     <div
@@ -39,7 +44,14 @@ export default function ProfilePortrait({
       <FloatingParticles />
 
       <motion.div
-        style={{ x: active ? portraitX : 0, y: active ? portraitY : 0 }}
+        style={{
+          x: active ? portraitX : 0,
+          y: active ? portraitY : 0,
+          rotateX: active ? tiltX : 0,
+          rotateY: active ? tiltY : 0,
+          transformPerspective: 1100,
+          transformStyle: 'preserve-3d',
+        }}
         className="relative z-10"
       >
         <div className="animate-float relative aspect-square" style={{ animationDuration: '7s' }}>
@@ -68,6 +80,11 @@ export default function ProfilePortrait({
                 <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-t from-[var(--hero-fade)]/70 via-transparent to-transparent" />
                 <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_70px_color-mix(in_srgb,var(--primary)_16%,transparent),inset_0_0_34px_color-mix(in_srgb,var(--violet)_14%,transparent)]" />
                 <div className="pointer-events-none absolute inset-x-10 top-1 h-16 rounded-full bg-white/10 blur-2xl [html[data-theme='light']_&]:bg-white/40" />
+                <motion.div
+                  aria-hidden="true"
+                  style={{ backgroundImage: portraitLight }}
+                  className="portrait-shine pointer-events-none absolute inset-0 rounded-full"
+                />
               </div>
             </div>
           </div>

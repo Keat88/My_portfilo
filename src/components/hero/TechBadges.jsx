@@ -1,5 +1,5 @@
 import { FaJava, FaReact } from 'react-icons/fa'
-import { SiMysql, SiSpringboot } from 'react-icons/si'
+import { SiDocker, SiLaravel, SiMysql, SiSpringboot } from 'react-icons/si'
 import { motion, useReducedMotion, useTransform } from 'framer-motion'
 import { cn } from '../../utils/cn'
 
@@ -32,9 +32,25 @@ const badges = [
     position: 'bottom-[8%] right-0 sm:translate-x-1/4',
     depth: 22,
   },
+  {
+    name: 'Docker',
+    Icon: SiDocker,
+    color: '#2496ed',
+    position: 'left-0 top-[52%] sm:-translate-x-1/4',
+    depth: 30,
+    desktopOnly: true,
+  },
+  {
+    name: 'Laravel',
+    Icon: SiLaravel,
+    color: '#ff2d20',
+    position: 'right-0 top-[46%] sm:translate-x-1/4',
+    depth: 36,
+    desktopOnly: true,
+  },
 ]
 
-function TechBadge({ badge, index, parallaxX, parallaxY, active }) {
+function TechBadge({ badge, index, parallaxX, parallaxY, active, reduce }) {
   const x = useTransform(parallaxX, [-0.5, 0.5], [badge.depth, -badge.depth])
   const y = useTransform(parallaxY, [-0.5, 0.5], [badge.depth * 0.7, -badge.depth * 0.7])
   const { Icon } = badge
@@ -42,7 +58,10 @@ function TechBadge({ badge, index, parallaxX, parallaxY, active }) {
   return (
     <motion.div
       style={{ x: active ? x : 0, y: active ? y : 0 }}
-      className={cn('absolute', badge.position)}
+      initial={reduce ? false : { opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.65, delay: 0.7 + index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      className={cn('absolute', badge.position, badge.desktopOnly && 'hidden sm:block')}
     >
       <div
         className="animate-float flex items-center gap-2 rounded-2xl border border-[var(--overlay-border)] bg-[var(--badge-bg)] px-2.5 py-2 shadow-[var(--shadow-glow)] backdrop-blur-md"
@@ -74,6 +93,7 @@ export default function TechBadges({ parallaxX, parallaxY, parallax = true }) {
           parallaxX={parallaxX}
           parallaxY={parallaxY}
           active={active}
+          reduce={reduce}
         />
       ))}
     </div>
