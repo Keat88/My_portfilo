@@ -1,6 +1,9 @@
-import { useEffect } from 'react'
+﻿import { useEffect, lazy, Suspense } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Home from './pages/Home'
+
+const AdminApp = lazy(() => import('./components/admin/AdminApp'))
 
 function useDocumentLanguage() {
   const { i18n, t } = useTranslation()
@@ -35,10 +38,8 @@ function useDocumentLanguage() {
   }, [i18n, i18n.resolvedLanguage, t])
 }
 
-export default function App() {
+function PortfolioApp() {
   const { t } = useTranslation()
-  useDocumentLanguage()
-
   return (
     <>
       <div className="app-bg" aria-hidden="true" />
@@ -50,5 +51,19 @@ export default function App() {
       </a>
       <Home />
     </>
+  )
+}
+
+export default function App() {
+  useDocumentLanguage()
+
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[var(--background)]" />}>
+      <Routes>
+        <Route path="/" element={<PortfolioApp />} />
+        <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   )
 }
