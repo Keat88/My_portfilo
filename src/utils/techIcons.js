@@ -1,4 +1,4 @@
-﻿import { Server, Layers } from 'lucide-react'
+﻿import { Coffee, Code2, Server, Layers } from 'lucide-react'
 import {
   SiApachemaven,
   SiDocker,
@@ -37,6 +37,8 @@ const iconMap = {
   SiApachemaven,
   SiPostman,
   SiSwagger,
+  SiCss3: Code2,
+  SiJava: Coffee,
   server: Server,
   layers: Layers,
   api: TbApi,

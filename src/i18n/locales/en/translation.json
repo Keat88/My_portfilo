@@ -16,7 +16,13 @@
     "primaryNav": "Primary",
     "mobileNav": "Mobile",
     "projectThumbnail": "Project thumbnail",
-    "thumbnailAlt": "{{name}} thumbnail"
+    "thumbnailAlt": "{{name}} thumbnail",
+    "copyEmail": "Copy email address",
+    "emailCopied": "Email address copied",
+    "openProjectDetails": "Open details for {{name}}",
+    "closeDialog": "Close dialog",
+    "scrollToTop": "Scroll back to top",
+    "availability": "Professional availability"
   },
   "navbar": {
     "home": "Home",
@@ -24,6 +30,7 @@
     "skills": "Skills",
     "services": "Services",
     "projects": "Projects",
+    "journey": "Journey",
     "contact": "Contact",
     "downloadCV": "Download CV",
     "portfolio": "Portfolio"
@@ -42,17 +49,44 @@
     "eyebrow": "01 / About",
     "title": "About Me",
     "phase": "Phase 2",
-    "description": "Hello, my name is Keng Keat. I am a second-year Information Technology student studying on a 100% scholarship at The University of Cambodia. Alongside my degree, I gain hands-on industry experience working as a weekend student intern at ETEC Center. My ultimate career goal is to become a professional full-stack software engineer. I specialize in building full-stack web applications using React, Tailwind CSS, Laravel, Spring Boot, and MySQL. I love turning ideas into clean, functional user interfaces and robust backend systems, and I am always excited to tackle new technical challenges."
+    "description": "Hello, my name is Keng Keat. I am a second-year Information Technology student studying on a 100% scholarship at The University of Cambodia. Alongside my degree, I gain hands-on industry experience working as a weekend student intern at ETEC Center. My ultimate career goal is to become a professional full-stack software engineer. I specialize in building full-stack web applications using React, Tailwind CSS, Laravel, Spring Boot, and MySQL. I love turning ideas into clean, functional user interfaces and robust backend systems, and I am always excited to tackle new technical challenges.",
+    "summary": "Second-year IT student, weekend intern, and developer focused on clean interfaces and robust backend systems.",
+    "stackLabel": "Core stack",
+    "stack": "React · Tailwind CSS · Laravel · Spring Boot · MySQL",
+    "cards": {
+      "education": {
+        "label": "Education",
+        "title": "The University of Cambodia",
+        "description": "Second-year Information Technology student on a 100% scholarship."
+      },
+      "experience": {
+        "label": "Experience",
+        "title": "ETEC Center",
+        "description": "Weekend student intern gaining hands-on industry experience."
+      },
+      "goal": {
+        "label": "Career goal",
+        "title": "Professional full-stack engineer",
+        "description": "Turning ideas into clean, functional interfaces and robust backend systems."
+      }
+    },
+    "stats": {
+      "technologies": "Technologies in my stack",
+      "projects": "Featured projects",
+      "focusAreas": "Focus areas"
+    }
   },
   "skills": {
     "eyebrow": "02 / Skills",
     "title": "Technical Skills",
-    "description": "The backend, frontend, database, and tooling stack I work with, shown with configurable proficiency levels.",
+    "description": "The technologies I work with, grouped by area and paired with my current proficiency levels.",
     "categories": {
-      "backend": "Backend",
       "frontend": "Frontend",
-      "database": "Database",
-      "tools": "Tools"
+      "backend": "Backend",
+      "languages": "Programming Languages",
+      "databases": "Databases",
+      "devops": "DevOps & Tools",
+      "other": "Other Technologies"
     }
   },
   "services": {
@@ -85,6 +119,27 @@
     "viewDetails": "View Details",
     "github": "GitHub",
     "liveDemo": "Live Demo",
+    "count": "{{count}} projects",
+    "filters": {
+      "all": "All",
+      "web": "Web Apps",
+      "system": "Systems",
+      "api": "API"
+    },
+    "category": {
+      "web": "Web App",
+      "system": "System",
+      "api": "API"
+    },
+    "details": {
+      "title": "Project details",
+      "technologies": "Technologies",
+      "features": "Key features",
+      "status": "Status",
+      "repository": "Repository",
+      "liveDemo": "Live demo",
+      "unavailable": "Link not available yet"
+    },
     "items": {
       "contacthub": {
         "name": "ContactHub",
@@ -124,13 +179,45 @@
   "journey": {
     "eyebrow": "05 / Journey",
     "title": "Development Journey",
-    "phase": "Phase 3",
-    "description": "A timeline of milestones, from first lines of code to production-ready systems."
+    "description": "The education, hands-on experience, and goals behind my work.",
+    "items": {
+      "education": {
+        "phase": "Education",
+        "title": "The University of Cambodia",
+        "description": "Second-year Information Technology student on a 100% scholarship.",
+        "meta": "Current"
+      },
+      "internship": {
+        "phase": "Experience",
+        "title": "ETEC Center",
+        "description": "Weekend student intern gaining hands-on industry experience.",
+        "meta": "Current"
+      },
+      "projects": {
+        "phase": "Practice",
+        "title": "Full-stack projects",
+        "description": "Featured work across contact management, learning platforms, restaurant POS, and secure APIs.",
+        "meta": "Portfolio"
+      },
+      "goal": {
+        "phase": "Goal",
+        "title": "Professional full-stack engineer",
+        "description": "Career goal: build complete web products with React, Tailwind CSS, Laravel, Spring Boot, and MySQL.",
+        "meta": "Looking ahead"
+      }
+    }
   },
   "contact": {
     "eyebrow": "06 / Contact",
     "title": "Let's Work Together",
     "description": "Have a project, a role, or an idea worth building? Send a message and I'll get back to you.",
+    "availability": {
+      "label": "Availability",
+      "title": "Open to new conversations",
+      "description": "Have a project, a role, or an idea worth building? Send a message and I'll get back to you."
+    },
+    "copyEmail": "Copy email",
+    "copied": "Copied",
     "form": {
       "name": "Name",
       "namePlaceholder": "Your name",

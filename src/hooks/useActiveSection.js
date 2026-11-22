@@ -7,6 +7,7 @@ export function useActiveSection(sectionIds) {
     if (sectionIds.length === 0) return undefined
 
     let observer
+    let mutationObserver
     let frame = 0
     let attempts = 0
     let observedCount = -1
@@ -44,11 +45,27 @@ export function useActiveSection(sectionIds) {
       }
     }
 
+    const rescan = () => {
+      observedCount = -1
+      attempts = 0
+      if (frame) cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(scan)
+    }
+
+    const main = document.getElementById('main')
+    if (main) {
+      mutationObserver = new MutationObserver(rescan)
+      mutationObserver.observe(main, { childList: true })
+    }
+
+    window.addEventListener('resize', rescan)
     scan()
 
     return () => {
       if (frame) cancelAnimationFrame(frame)
       observer?.disconnect()
+      mutationObserver?.disconnect()
+      window.removeEventListener('resize', rescan)
     }
   }, [sectionIds])
 

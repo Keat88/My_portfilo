@@ -1,7 +1,7 @@
 import ImagePro from '../assets/images/profile.jpg';
 export const personalInfo = {
   name: 'Keng Keat',
-  initials: 'KH',
+  initials: 'KK',
   role: 'Backend & Full-Stack Developer',
   email: 'keatkeng88@gmail.com',
   location: 'Cambodia',
@@ -11,7 +11,7 @@ export const personalInfo = {
   profileImage: ImagePro,
   profileImageAlt: 'Keng Keat',
   cvUrl: '/cv/Your-Name-CV.pdf',
-  yearsOfExperience: 'No experience',
-  projectsCompleted: '5',
-  technologiesLearned: '8',
+  yearsOfExperience: 'Not specified',
+  projectsCompleted: '4',
+  technologiesLearned: '19',
 }

@@ -81,6 +81,7 @@ export default function ParticleNetwork({ paused = false, className }) {
     let height = 0
     let dpr = 1
     let particles = []
+    let config = { count: 0, link: 0, mouse: 0 }
     let raf = 0
     let idleId = null
     let timeoutId = null
@@ -93,16 +94,14 @@ export default function ParticleNetwork({ paused = false, className }) {
     const getConfig = () => {
       const compact = width < 640
       return {
-        count: compact ? 22 : width < 1024 ? 46 : 68,
-        link: compact ? 88 : 120,
-        mouse: compact ? 0 : 150,
-        speed: 0.24,
+        count: compact ? 18 : width < 1024 ? 32 : 48,
+        link: compact ? 84 : 108,
+        mouse: compact ? 0 : 140,
       }
     }
 
     const seed = () => {
-      const { count } = getConfig()
-      particles = Array.from({ length: count }, () => ({
+      particles = Array.from({ length: config.count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.3,
@@ -113,23 +112,36 @@ export default function ParticleNetwork({ paused = false, className }) {
     }
 
     const resize = () => {
+      const previousWidth = width
+      const previousHeight = height
       const rect = canvas.getBoundingClientRect()
+
       width = Math.max(1, Math.round(rect.width))
       height = Math.max(1, Math.round(rect.height))
       dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
+      config = getConfig()
 
       canvas.width = Math.round(width * dpr)
       canvas.height = Math.round(height * dpr)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      seed()
+      if (particles.length !== config.count || particles.length === 0) {
+        seed()
+      } else if (previousWidth > 0 && previousHeight > 0) {
+        const scaleX = width / previousWidth
+        const scaleY = height / previousHeight
+        particles.forEach((particle) => {
+          particle.x *= scaleX
+          particle.y *= scaleY
+        })
+      }
+
       draw(false)
     }
 
     const draw = (update) => {
       if (!width || !height) return
 
-      const config = getConfig()
       const linkAlpha = palette.dark ? 0.24 : 0.14
       const nodeAlpha = palette.dark ? 0.9 : 0.62
       const linkSquared = config.link * config.link
@@ -163,27 +175,45 @@ export default function ParticleNetwork({ paused = false, className }) {
         }
       }
 
+      const grid = new Map()
+      particles.forEach((particle, index) => {
+        const key = `${Math.floor(particle.x / config.link)}:${Math.floor(particle.y / config.link)}`
+        const bucket = grid.get(key)
+        if (bucket) bucket.push(index)
+        else grid.set(key, [index])
+      })
+
       ctx.lineWidth = 1
       ctx.globalAlpha = 1
 
       for (let i = 0; i < particles.length; i += 1) {
         const source = particles[i]
+        const cellX = Math.floor(source.x / config.link)
+        const cellY = Math.floor(source.y / config.link)
         const tint = i % 4 === 0 ? palette.violet : i % 5 === 0 ? palette.cyan : palette.primary
         ctx.strokeStyle = rgb(tint)
 
-        for (let j = i + 1; j < particles.length; j += 1) {
-          const target = particles[j]
-          const dx = source.x - target.x
-          const dy = source.y - target.y
-          const distanceSquared = dx * dx + dy * dy
+        for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
+          for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
+            const bucket = grid.get(`${cellX + offsetX}:${cellY + offsetY}`)
+            if (!bucket) continue
 
-          if (distanceSquared > linkSquared) continue
+            for (const j of bucket) {
+              if (j <= i) continue
+              const target = particles[j]
+              const dx = source.x - target.x
+              const dy = source.y - target.y
+              const distanceSquared = dx * dx + dy * dy
 
-          ctx.globalAlpha = (1 - Math.sqrt(distanceSquared) / config.link) * linkAlpha
-          ctx.beginPath()
-          ctx.moveTo(source.x, source.y)
-          ctx.lineTo(target.x, target.y)
-          ctx.stroke()
+              if (distanceSquared > linkSquared) continue
+
+              ctx.globalAlpha = (1 - Math.sqrt(distanceSquared) / config.link) * linkAlpha
+              ctx.beginPath()
+              ctx.moveTo(source.x, source.y)
+              ctx.lineTo(target.x, target.y)
+              ctx.stroke()
+            }
+          }
         }
       }
 
@@ -263,7 +293,7 @@ export default function ParticleNetwork({ paused = false, className }) {
     }
 
     const onPointerMove = (event) => {
-      if (reduced || getConfig().mouse === 0 || event.pointerType === 'touch') return
+      if (reduced || config.mouse === 0 || event.pointerType === 'touch') return
 
       const rect = canvas.getBoundingClientRect()
       const inside =

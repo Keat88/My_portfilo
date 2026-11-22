@@ -33,7 +33,7 @@ export default function TextReveal({
   const MotionTag = MOTION_TAGS[Tag] ?? motion.span
 
   if (reduce) {
-    return <Tag className={className}>{text}</Tag>
+    return <MotionTag className={className}>{text}</MotionTag>
   }
 
   const tokens = splitText(text, type)
@@ -41,39 +41,39 @@ export default function TextReveal({
   return (
     <MotionTag
       className={cn('inline-block', className)}
-      style={{ perspective: 800 }}
       initial="hidden"
       animate="show"
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: stagger, delayChildren: delay } },
       }}
-      aria-label={text}
     >
-      {tokens.map((token, i) => (
-        <motion.span
-          key={`${token}-${i}`}
-          className="inline-block"
-          style={{
-            whiteSpace: token.trim() === '' ? 'pre' : undefined,
-            transformOrigin: '50% 100%',
-            transformStyle: 'preserve-3d',
-          }}
-          aria-hidden="true"
-          variants={{
-            hidden: { opacity: 0, y: '0.55em', rotateX: -62, filter: 'blur(7px)' },
-            show: {
-              opacity: 1,
-              y: 0,
-              rotateX: 0,
-              filter: 'blur(0px)',
-              transition: { duration: 0.62, ease: [0.22, 1, 0.36, 1] },
-            },
-          }}
-        >
-          {token === ' ' ? '\u00A0' : token}
-        </motion.span>
-      ))}
+      <span className="sr-only">{text}</span>
+      <motion.span aria-hidden="true" className="inline-block" style={{ perspective: 800 }}>
+        {tokens.map((token, i) => (
+          <motion.span
+            key={`${token}-${i}`}
+            className="inline-block"
+            style={{
+              whiteSpace: token.trim() === '' ? 'pre' : undefined,
+              transformOrigin: '50% 100%',
+              transformStyle: 'preserve-3d',
+            }}
+            variants={{
+              hidden: { opacity: 0, y: '0.55em', rotateX: -62, filter: 'blur(7px)' },
+              show: {
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+                filter: 'blur(0px)',
+                transition: { duration: 0.62, ease: [0.22, 1, 0.36, 1] },
+              },
+            }}
+          >
+            {token === ' ' ? '\u00A0' : token}
+          </motion.span>
+        ))}
+      </motion.span>
     </MotionTag>
   )
 }

@@ -36,69 +36,115 @@ function LanguageSwitcher({
   setLangOpen,
   changeLanguage,
   compact = false,
-  containerRef,
+  idPrefix,
 }) {
+  const triggerRef = useRef(null)
+  const optionRefs = useRef([])
+  const menuId = `${idPrefix}-language-menu`
+
+  const focusOption = (index) => {
+    const target = optionRefs.current[(index + languages.length) % languages.length]
+    target?.focus()
+  }
+
+  const handleTriggerKeyDown = (event) => {
+    if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      setLangOpen(true)
+      requestAnimationFrame(() => focusOption(0))
+    }
+  }
+
+  const handleMenuKeyDown = (event) => {
+    const current = optionRefs.current.indexOf(document.activeElement)
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault()
+      focusOption(current + 1)
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      focusOption(current - 1)
+    } else if (event.key === 'Home') {
+      event.preventDefault()
+      focusOption(0)
+    } else if (event.key === 'End') {
+      event.preventDefault()
+      focusOption(languages.length - 1)
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      setLangOpen(false)
+      triggerRef.current?.focus()
+    }
+  }
+
   return (
-    <div ref={containerRef} className={cn('relative', compact && 'w-full')}>
+    <div data-language-switcher className={cn('relative', compact && 'w-full')}>
       <button
+        ref={triggerRef}
         type="button"
-        onClick={() => setLangOpen((v) => !v)}
-        aria-haspopup="listbox"
+        onClick={() => setLangOpen((value) => !value)}
+        onKeyDown={handleTriggerKeyDown}
+        aria-haspopup="menu"
+        aria-controls={menuId}
         aria-expanded={langOpen}
         aria-label={t('language.switchTo')}
         className={cn(
-          'inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] text-ink transition-all duration-300 hover:border-primary/40 hover:text-primary',
+          'inline-flex items-center gap-2 rounded-xl border border-[var(--overlay-border)] bg-[var(--overlay-soft)] text-ink transition-all duration-300 hover:border-primary/40 hover:text-primary',
           compact ? 'w-full justify-between px-3 py-2.5 text-sm' : 'h-10 px-2.5 text-xs sm:px-3',
         )}
       >
         <span className="flex items-center gap-2">
           <span className={cn('text-base leading-none', compact ? '' : 'sm:text-sm')}>{activeLang.flag}</span>
-          <span className={cn('font-medium', compact ? 'text-slate-200' : 'hidden sm:inline text-slate-200')}>
+          <span className={cn('font-medium text-[var(--text-soft)]', compact ? '' : 'hidden sm:inline')}>
             {t(activeLang.labelKey)}
           </span>
           {!compact && <span className="font-mono text-[10px] text-primary/80 sm:hidden">{activeLang.short}</span>}
         </span>
         <ChevronDown aria-hidden="true" className={cn('h-4 w-4 text-muted transition-transform duration-300', langOpen && 'rotate-180 text-primary')} />
       </button>
+
       <AnimatePresence>
         {langOpen && (
-          <motion.ul
-            role="listbox"
+          <motion.div
+            id={menuId}
+            role="menu"
             aria-label={t('language.label')}
+            onKeyDown={handleMenuKeyDown}
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
             className={cn(
-              'absolute z-[70] overflow-hidden rounded-xl border border-white/10 bg-[var(--overlay-strong)] p-1.5 shadow-[0_20px_60px_-20px_rgba(2,6,23,1)] backdrop-blur-xl',
+              'absolute z-[70] overflow-hidden rounded-xl border border-[var(--overlay-border)] bg-[var(--overlay-strong)] p-1.5 shadow-[0_20px_60px_-20px_rgba(2,6,23,1)] backdrop-blur-xl',
               compact ? 'left-0 right-0 mt-2' : 'right-0 mt-2 min-w-[10.5rem]',
             )}
           >
-            {languages.map((lang) => {
+            {languages.map((lang, index) => {
               const selected = currentLang === lang.code
               return (
-                <li key={lang.code}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={selected}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={cn(
-                      'flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors',
-                      selected ? 'bg-primary/10 text-ink' : 'text-muted hover:bg-white/5 hover:text-ink',
-                    )}
-                  >
-                    <span className="flex items-center gap-2.5">
-                      {/* <span className="text-base leading-none">{lang.flag}</span> */}
-                      {lang.flag}
-                      <span className="font-medium">{t(lang.labelKey)}</span>
-                    </span>
-                    {selected && <Check aria-hidden="true" className="h-4 w-4 text-primary" />}
-                  </button>
-                </li>
+                <button
+                  key={lang.code}
+                  ref={(element) => {
+                    optionRefs.current[index] = element
+                  }}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={selected}
+                  onClick={() => changeLanguage(lang.code)}
+                  className={cn(
+                    'flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors',
+                    selected ? 'bg-primary/10 text-ink' : 'text-muted hover:bg-[var(--overlay-softer)] hover:text-ink',
+                  )}
+                >
+                  <span className="flex items-center gap-2.5">
+                    {lang.flag}
+                    <span className="font-medium">{t(lang.labelKey)}</span>
+                  </span>
+                  {selected && <Check aria-hidden="true" className="h-4 w-4 text-primary" />}
+                </button>
               )
             })}
-          </motion.ul>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
@@ -109,7 +155,6 @@ export default function Navbar() {
   const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
-  const langRef = useRef(null)
   const scrolled = useScrolled(24)
   const active = useActiveSection(sectionIds)
   const { scrollYProgress } = useScroll()
@@ -118,32 +163,35 @@ export default function Navbar() {
   const changeLanguage = (lang) => {
     const y = window.scrollY
     i18n.changeLanguage(lang)
-    localStorage.setItem('i18nextLng', lang)
     setLangOpen(false)
     requestAnimationFrame(() => window.scrollTo({ top: y, left: 0, behavior: 'auto' }))
   }
 
   useEffect(() => {
     if (!open && !langOpen) return undefined
+
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
         setOpen(false)
         setLangOpen(false)
       }
     }
+
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [open, langOpen])
 
   useEffect(() => {
-    const onClick = (e) => {
-      if (langRef.current && !langRef.current.contains(e.target)) setLangOpen(false)
+    const onClick = (event) => {
+      if (!(event.target instanceof Element)) return
+      if (!event.target.closest('[data-language-switcher]')) setLangOpen(false)
     }
+
     document.addEventListener('mousedown', onClick)
     return () => document.removeEventListener('mousedown', onClick)
   }, [])
 
-  const activeLang = languages.find((l) => l.code === currentLang) || languages[0]
+  const activeLang = languages.find((language) => language.code === currentLang) || languages[0]
 
   return (
     <>
@@ -173,9 +221,7 @@ export default function Navbar() {
               </span>
             </span>
             <span className="flex flex-col leading-none">
-              <span className="font-display text-sm font-semibold tracking-tight text-ink">
-                {personalInfo.name}
-              </span>
+              <span className="font-display text-sm font-semibold tracking-tight text-ink">{personalInfo.name}</span>
               <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.28em] text-muted/70">
                 {t('navbar.portfolio')}
               </span>
@@ -189,9 +235,9 @@ export default function Navbar() {
                 <a
                   key={link.id}
                   href={`#${link.id}`}
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-current={isActive ? 'location' : undefined}
                   className={cn(
-                    'group relative rounded-lg px-3 py-2 text-sm transition-colors duration-300',
+                    'group relative rounded-lg px-2.5 py-2 text-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60',
                     isActive ? 'text-ink' : 'text-muted hover:text-ink',
                   )}
                 >
@@ -199,11 +245,11 @@ export default function Navbar() {
                   {isActive ? (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-3 -bottom-px h-px bg-gradient-to-r from-primary via-cyan to-violet"
+                      className="absolute inset-x-2 -bottom-px h-px bg-gradient-to-r from-primary via-cyan to-violet"
                       transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                     />
                   ) : (
-                    <span className="absolute inset-x-3 -bottom-px h-px origin-left scale-x-0 bg-white/30 transition-transform duration-300 group-hover:scale-x-100" />
+                    <span className="absolute inset-x-2 -bottom-px h-px origin-left scale-x-0 bg-[var(--overlay-border)] transition-transform duration-300 group-hover:scale-x-100" />
                   )}
                 </a>
               )
@@ -219,21 +265,10 @@ export default function Navbar() {
                 langOpen={langOpen}
                 setLangOpen={setLangOpen}
                 changeLanguage={changeLanguage}
-                containerRef={langRef}
+                idPrefix="desktop"
               />
             </div>
             <ThemeToggle />
-            {/* <div className="hidden md:block">
-              <Button
-                href={personalInfo.cvUrl}
-                download
-                size="sm"
-                icon={Download}
-                iconPosition="left"
-              >
-                {t('navbar.downloadCV')}
-              </Button>
-            </div> */}
 
             <button
               type="button"
@@ -241,7 +276,7 @@ export default function Navbar() {
               aria-expanded={open}
               aria-controls="mobile-navigation"
               aria-label={open ? t('a11y.closeMenu') : t('a11y.openMenu')}
-              className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.03] text-ink transition-colors hover:border-primary/40 hover:text-primary lg:hidden [html[data-theme='light']_&]:border-slate-200 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:shadow-sm"
+              className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--overlay-border)] bg-[var(--overlay-soft)] text-ink transition-colors hover:border-primary/40 hover:text-primary lg:hidden"
             >
               {open ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
             </button>
@@ -257,7 +292,7 @@ export default function Navbar() {
                 transition={{ duration: 0.22, ease: 'easeOut' }}
                 className="absolute inset-x-0 top-[calc(100%+0.3rem)] z-50 lg:hidden"
               >
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-[var(--overlay-strong)] p-3 shadow-[var(--shadow-glow)] backdrop-blur-2xl [html[data-theme='light']_&]:border-slate-200/80">
+                <div className="max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-[var(--overlay-border)] bg-[var(--overlay-strong)] p-3 shadow-[var(--shadow-glow)] backdrop-blur-2xl">
                   <nav aria-label={t('a11y.mobileNav')} className="flex flex-col">
                     {navLinks.map((link, index) => {
                       const isActive = active === link.id
@@ -266,18 +301,16 @@ export default function Navbar() {
                           key={link.id}
                           href={`#${link.id}`}
                           onClick={() => setOpen(false)}
-                          aria-current={isActive ? 'page' : undefined}
+                          aria-current={isActive ? 'location' : undefined}
                           className={cn(
                             'flex items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors',
                             isActive
                               ? 'bg-primary/10 text-ink'
-                              : 'text-muted hover:bg-white/5 hover:text-ink',
+                              : 'text-muted hover:bg-[var(--overlay-softer)] hover:text-ink',
                           )}
                         >
                           <span className="flex items-center gap-3">
-                            <span className="font-mono text-[10px] text-primary/70">
-                              0{index + 1}
-                            </span>
+                            <span className="font-mono text-[10px] text-primary/70">{String(index + 1).padStart(2, '0')}</span>
                             {t(`navbar.${link.id}`)}
                           </span>
                           {isActive && <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-primary" />}
@@ -286,9 +319,9 @@ export default function Navbar() {
                     })}
                   </nav>
 
-                  <div className="mt-3 space-y-2 border-t border-white/5 pt-3">
+                  <div className="mt-3 space-y-2 border-t border-[var(--overlay-border-soft)] pt-3">
                     <div className="px-1">
-                      <div className="mb-2 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em]  text-muted/70">
+                      <div className="mb-2 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-muted/70">
                         <Globe className="h-3.5 w-3.5" aria-hidden="true" />
                         {t('language.label')}
                       </div>
@@ -300,18 +333,9 @@ export default function Navbar() {
                         setLangOpen={setLangOpen}
                         changeLanguage={changeLanguage}
                         compact
+                        idPrefix="mobile"
                       />
                     </div>
-                    {/* <Button
-                      href={personalInfo.cvUrl}
-                      download
-                      size="md"
-                      icon={Download}
-                      iconPosition="left"
-                      className="w-full"
-                    >
-                      {t('navbar.downloadCV')}
-                    </Button> */}
                   </div>
                 </div>
               </motion.div>

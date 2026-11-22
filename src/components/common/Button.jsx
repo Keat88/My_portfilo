@@ -1,4 +1,6 @@
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
 import { cn } from '../../utils/cn'
+import { usePointerFine } from '../../hooks/usePointerFine'
 
 const variants = {
   primary:
@@ -23,14 +25,38 @@ export default function Button({
   icon: Icon,
   iconPosition = 'right',
   className,
+  onPointerMove,
+  onPointerLeave,
   ...props
 }) {
+  const reduce = useReducedMotion()
+  const finePointer = usePointerFine()
+  const rawX = useMotionValue(0)
+  const rawY = useMotionValue(0)
+  const x = useSpring(rawX, { stiffness: 240, damping: 20, mass: 0.4 })
+  const y = useSpring(rawY, { stiffness: 240, damping: 20, mass: 0.4 })
+
   const classes = cn(
     'group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-base',
     variants[variant],
     sizes[size],
     className,
   )
+
+  const handlePointerMove = (event) => {
+    onPointerMove?.(event)
+    if (reduce || !finePointer || event.pointerType === 'touch') return
+
+    const rect = event.currentTarget.getBoundingClientRect()
+    rawX.set(((event.clientX - rect.left) / rect.width - 0.5) * 10)
+    rawY.set(((event.clientY - rect.top) / rect.height - 0.5) * 10)
+  }
+
+  const handlePointerLeave = (event) => {
+    onPointerLeave?.(event)
+    rawX.set(0)
+    rawY.set(0)
+  }
 
   const content = (
     <>
@@ -50,17 +76,25 @@ export default function Button({
     </>
   )
 
+  const motionProps = {
+    className: classes,
+    style: { x, y },
+    onPointerMove: handlePointerMove,
+    onPointerLeave: handlePointerLeave,
+    ...props,
+  }
+
   if (href) {
     return (
-      <a href={href} className={classes} {...props}>
+      <motion.a href={href} {...motionProps}>
         {content}
-      </a>
+      </motion.a>
     )
   }
 
   return (
-    <button type="button" className={classes} {...props}>
+    <motion.button type="button" {...motionProps}>
       {content}
-    </button>
+    </motion.button>
   )
 }

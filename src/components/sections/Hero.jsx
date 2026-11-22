@@ -57,10 +57,14 @@ export default function Hero() {
             animate="show"
             className="relative"
           >
-            <motion.div variants={item} className="flex items-center gap-3">
+            <motion.div variants={item} className="flex flex-wrap items-center gap-3">
               <span className="h-px w-10 bg-gradient-to-r from-primary to-transparent" />
               <span className="font-mono text-[11px] uppercase tracking-[0.35em] text-primary/90">
                 {t('hero.greeting')}
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-emerald-600 [html[data-theme='dark']_&]:text-emerald-200">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" aria-hidden="true" />
+                {t('contact.availability.title')}
               </span>
             </motion.div>
 
@@ -105,17 +109,6 @@ export default function Hero() {
               <Button href="#projects" size="lg" variant="outline" icon={ArrowDown}>
                 {t('hero.explore')}
               </Button>
-              {/* <Button
-                href={personalInfo.cvUrl}
-                download
-                size="lg"
-                variant="ghost"
-                icon={Download}
-                iconPosition="left"
-                className="px-3"
-              >
-                {t('hero.downloadCV')}
-              </Button> */}
             </motion.div>
 
             <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
